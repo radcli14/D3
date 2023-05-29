@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public GameObject camera;
+    public GameObject ball;
     public GameObject body;
     public GameObject stool;
     private Rigidbody bodyRb;
@@ -34,6 +36,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         KeyboardControls();
+        PositionCamera();
     }
 
     // Control based on key presses for use on computers or tablets with keyboards
@@ -50,4 +53,12 @@ public class Player : MonoBehaviour
         if (Input.GetKey(retractKey)) stoolRb.AddForce(0, -extensionForceMag, 0);
     }
 
+    void PositionCamera() {
+        Vector3 averagePosition = 0.5f * (transform.position + ball.transform.position);
+        Vector3 desiredPosition = averagePosition + (2.5f + 2f * averagePosition.y) * Vector3.forward;
+        //desiredPosition.y = Max(desiredPosition.y, 3f);
+        //print(desiredPosition);
+        // For now, just set it to exactly the value
+        camera.transform.position = desiredPosition;
+    }
 }

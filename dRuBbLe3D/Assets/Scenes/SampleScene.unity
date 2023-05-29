@@ -672,6 +672,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21788a6244a2943db8f71aa71a44a94c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 963194225}
+  ball: {fileID: 8646003}
   body: {fileID: 1765287661}
   stool: {fileID: 871142485}
 --- !u!54 &1434081289
