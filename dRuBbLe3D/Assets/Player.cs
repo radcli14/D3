@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     private KeyCode retractKey = KeyCode.S;
 
     private float leftRightForceMag = 100f;
-    private float upDownForceMag = 100f;
+    private float upDownForceMag = 60f;
     private float tiltMomentMag = 100f;
     private float extensionForceMag = 10f;
 
