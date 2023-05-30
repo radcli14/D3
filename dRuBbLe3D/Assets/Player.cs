@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public GameObject camera;
+    public GameObject mainCamera;
     public GameObject ball;
     public GameObject body;
     public GameObject stool;
@@ -56,9 +56,9 @@ public class Player : MonoBehaviour
     void PositionCamera() {
         Vector3 averagePosition = 0.5f * (transform.position + ball.transform.position);
         Vector3 desiredPosition = averagePosition + (2.5f + 2f * averagePosition.y) * Vector3.forward;
-        //desiredPosition.y = Max(desiredPosition.y, 3f);
+        desiredPosition.y = Mathf.Max(desiredPosition.y, 1.5f);
         //print(desiredPosition);
         // For now, just set it to exactly the value
-        camera.transform.position = desiredPosition;
+        mainCamera.transform.position += 0.02f * (desiredPosition - mainCamera.transform.position);
     }
 }
