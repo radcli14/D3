@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
 
     private float leftRightForceMag = 100f;
     private float upDownForceMag = 60f;
-    private float tiltMomentMag = 100f;
+    private float tiltMomentMag = 3f;
     private float extensionForceMag = 10f;
 
     // Start is called before the first frame update
@@ -47,18 +47,20 @@ public class Player : MonoBehaviour
         if (Input.GetKey(upKey)) bodyRb.AddForce(0, upDownForceMag, 0);
         if (Input.GetKey(downKey)) bodyRb.AddForce(0, -upDownForceMag, 0);
 
-        if (Input.GetKey(tiltLeftKey)) stoolRb.AddTorque(0, 0, -tiltMomentMag);
-        if (Input.GetKey(tiltRightKey)) stoolRb.AddTorque(0, 0, tiltMomentMag);
+        if (Input.GetKey(tiltLeftKey)) stoolRb.AddForce(tiltMomentMag, 0, 0);
+        if (Input.GetKey(tiltRightKey)) stoolRb.AddForce(-tiltMomentMag, 0, 0);
         if (Input.GetKey(extendKey)) stoolRb.AddForce(0, extensionForceMag, 0);
         if (Input.GetKey(retractKey)) stoolRb.AddForce(0, -extensionForceMag, 0);
+
+        if (Input.GetKey(KeyCode.Space)) {
+            ball.GetComponent<Rigidbody>().position = transform.position + 4f * transform.up;
+        }
     }
 
     void PositionCamera() {
         Vector3 averagePosition = 0.5f * (transform.position + ball.transform.position);
         Vector3 desiredPosition = averagePosition + (2.5f + 2f * averagePosition.y) * Vector3.forward;
         desiredPosition.y = Mathf.Max(desiredPosition.y, 1.5f);
-        //print(desiredPosition);
-        // For now, just set it to exactly the value
-        mainCamera.transform.position += 0.02f * (desiredPosition - mainCamera.transform.position);
+        mainCamera.transform.position += 0.01f * (desiredPosition - mainCamera.transform.position);
     }
 }
