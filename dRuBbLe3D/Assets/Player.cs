@@ -37,10 +37,15 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        KeyboardControls();
+        
         // Use the player velocity to update the animation for running or jumping
         anim.SetFloat("velo", -bodyRb.velocity.x);
- 
-        KeyboardControls();
+        //Debug.Log(anim.GetFloat("velo"));
+    }
+
+    void FixedUpdate()
+    {
         PositionCamera();
     }
 
@@ -63,10 +68,18 @@ public class Player : MonoBehaviour
     }
 
     void PositionCamera() {
-        Vector3 diffPosition = transform.position - ball.transform.position;
-        Vector3 averagePosition = 0.5f * (transform.position + ball.transform.position);
-        Vector3 desiredPosition = averagePosition + (2.5f + diffPosition.magnitude) * Vector3.forward;
-        desiredPosition.y = Mathf.Max(desiredPosition.y, 1.5f);
-        mainCamera.transform.position += 0.01f * (desiredPosition - mainCamera.transform.position);
+        Vector3 desiredPosition;
+        if (ball.transform.position.y >= 1)
+        {
+            Vector3 diffPosition = transform.position - ball.transform.position;
+            Vector3 averagePosition = 0.5f * (transform.position + ball.transform.position);
+            desiredPosition = averagePosition + (2.5f + diffPosition.magnitude) * Vector3.forward;
+        }
+        else 
+        {
+            desiredPosition = transform.position + 2.5f * Vector3.forward;
+        }
+        desiredPosition.y = Mathf.Max(desiredPosition.y, 1f);
+        mainCamera.transform.position += 0.1f * (desiredPosition - mainCamera.transform.position);
     }
 }
