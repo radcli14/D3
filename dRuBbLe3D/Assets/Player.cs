@@ -8,23 +8,24 @@ public class Player : MonoBehaviour
     public GameObject ball;
     public GameObject body;
     public GameObject stool;
+
     public Animator anim;
 
     private Rigidbody bodyRb;
     private Rigidbody stoolRb;
 
-    private KeyCode leftKey = KeyCode.LeftArrow;
-    private KeyCode rightKey = KeyCode.RightArrow;
-    private KeyCode upKey = KeyCode.UpArrow;
-    private KeyCode downKey = KeyCode.DownArrow;
-    private KeyCode tiltLeftKey = KeyCode.A;
-    private KeyCode tiltRightKey = KeyCode.D;
-    private KeyCode extendKey = KeyCode.W;
-    private KeyCode retractKey = KeyCode.S;
+    private KeyCode leftKey = KeyCode.A;
+    private KeyCode rightKey = KeyCode.D;
+    private KeyCode upKey = KeyCode.W;
+    private KeyCode downKey = KeyCode.S;
+    private KeyCode tiltLeftKey = KeyCode.LeftArrow;
+    private KeyCode tiltRightKey = KeyCode.RightArrow;
+    private KeyCode extendKey = KeyCode.UpArrow;
+    private KeyCode retractKey = KeyCode.DownArrow;
 
     private float leftRightForceMag = 100f;
-    private float upDownForceMag = 60f;
-    private float tiltMomentMag = 3f;
+    private float upDownForceMag = 100f;
+    private float tiltMomentMag = 500f;
     private float extensionForceMag = 10f;
 
     // Start is called before the first frame update
@@ -54,11 +55,11 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKey(leftKey)) bodyRb.AddForce(leftRightForceMag, 0, 0);
         if (Input.GetKey(rightKey)) bodyRb.AddForce(-leftRightForceMag, 0, 0);
-        if (Input.GetKey(upKey)) bodyRb.AddForce(0, upDownForceMag, 0);
+        if (Input.GetKey(upKey) && body.transform.position.y < 1f) bodyRb.AddForce(0, upDownForceMag, 0);
         if (Input.GetKey(downKey)) bodyRb.AddForce(0, -upDownForceMag, 0);
 
-        if (Input.GetKey(tiltLeftKey)) stoolRb.AddForce(tiltMomentMag, 0, 0);
-        if (Input.GetKey(tiltRightKey)) stoolRb.AddForce(-tiltMomentMag, 0, 0);
+        if (Input.GetKey(tiltLeftKey)) stoolRb.AddTorque(0, 0, -tiltMomentMag);
+        if (Input.GetKey(tiltRightKey)) stoolRb.AddTorque(0, 0, tiltMomentMag);
         if (Input.GetKey(extendKey)) stoolRb.AddForce(0, extensionForceMag, 0);
         if (Input.GetKey(retractKey)) stoolRb.AddForce(0, -extensionForceMag, 0);
 
