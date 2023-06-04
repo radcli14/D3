@@ -17,20 +17,41 @@ Rigging and inverse kinematics (IK) are used to animate the player running, and 
 ### Kinematics
 
 The root frame for the player is designated as the `GameObject` named `dRuBbLePunk`.
+This tracks the horizontal motion, and provides an interface to apply force and constraints to the player.
+
 A `GameObject` named `body` contains the transform from the root to the center of gravity (CG) of the player, and has a `Rigidbody` component with a relatively large mass.
 The kinematic constraints between `dRuBbLePunk` and `body` are applied in a `Configurable Joint`, which allows free motion in the X direction, and limited motion in the Y direction.
 The `body` also has damping, which limits the running speed when a force is applied in the script.
 In this configuration, the player can run left and right, and crouch or jump in the vertical direction within constraint limits.
 
+A `GameObject` named `stool` contains the transform from the `body` to the top of the stool, and has a `Rigidbody` component with a relatively small mass.
+The kinematic constraints between `body` and `stool` are applied in a `Configurable Joint`, which allows free motion in the local Y direction, and free rotation about the Z axis, with spring stiffnesses and damping applied in each.
+In this configuration, the player can tilt the stool to point to the ball, or extend the stool to get a bigger bounce.
+
 ### Character
 
+The Mannequin character model has been downloaded from [Mixamo](mixamo.com).
+Root motion is referenced to the hip joint, which tracks motion of the `body`.
+
 ### Animation
+
+Multiple `.fbx` files are downloaded for the same character, each containing a different animation, with the suffix `@animation` appended to the file name.
+There is an `Animation Controller` component attached to the character model, which contains transitions between these.
+A parameter named `velo` is created in the animation controller, which is updated at each frame in the player script, and tracks the horizontal velocity of the `body`.
+The default animation is an `Idle` standing pose.
+A transition to the `RunLeft` animation is invoked when the velocity is above a positive threshold, and likewise to the `RunRight` animation for a negative velocity.
+
+![Diagram of the animator](images/animator.png)
+
+The `Foot IK` button is checked for each of the animations, which ensures that the player's feet do not pass through the ground.
+
+![Make sure to check the Foot IK box](images/footIK.png)
 
 ### Rigging
 
 ## Scripting Components
 
-The script controlling an individual dRuBbLe player is called [Player.cs](dRuBbLe3D/Assets/Player.cs).
+The script controlling an individual dRuBbLe player is called [Player.cs](dRuBbLe3D/Assets/Player.cs), which is attached to the `dRuBbLePunk` `GameObject`.
 This accesses the `GameObject`s that handle character kinematics, animations, interactions with the ball, and camera motion.
 Left/right, up/down, and stool rotation and extension motions are also handled here via user inputs and/or computer controls.
 
