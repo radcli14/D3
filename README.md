@@ -32,12 +32,16 @@ In this configuration, the player can tilt the stool to point to the ball, or ex
 
 The Mannequin character model has been downloaded from [Mixamo](mixamo.com).
 Root motion is referenced to the hip joint, which tracks motion of the `body`.
+In each asset, from the inspector and the rig tab, make sure that `Humanoid` is selected as the `Animation Type`.
+
+![Make sure to select Humanoid](images/humanoid.png)
 
 ### Animation
 
 Multiple `.fbx` files are downloaded for the same character, each containing a different animation, with the suffix `@animation` appended to the file name.
 There is an `Animation Controller` component attached to the character model, which contains transitions between these.
-A parameter named `velo` is created in the animation controller, which is updated at each frame in the player script, and tracks the horizontal velocity of the `body`.
+A parameter named `velo` is created in the animation controller, which is updated at each frame in the player script, and tracks the horizontal velocity of the `body`, and is normalized to a value between 0 and 1.
+`velo` is also used as a multiplier on the animation speed.
 The default animation is an `Idle` standing pose.
 A transition to the `RunLeft` animation is invoked when the velocity is above a positive threshold, and likewise to the `RunRight` animation for a negative velocity.
 
@@ -47,7 +51,22 @@ The `Foot IK` button is checked for each of the animations, which ensures that t
 
 ![Make sure to check the Foot IK box](images/footIK.png)
 
+The `Has Exit Time` box should be unchecked for each of the transitions between running and idle, which will ensure that these will happen immediately, not wait for the prior animation to finish.
+On the other hand, the transition from each run animation to itself should have this checked, which will ensure that the running animations are smooth.
+
+![Make sure to uncheck the Has Exit Time box for transitions between idle and running](images/exitTime.png)
+
+
 ### Rigging
+
+A `Rig Builder` object is added to the character model, with rigs for root motion, left and right arm motion.
+Additionally there is a `Bone Renderer` object, which is created from the menu bar, `Animation Rigging -> Bone Renderer Setup`, which will pre-populate the transforms (much more convenient than doing it yourself).
+The `RootRig` object applies a `Multi-Position Constraint` from the `body` to the character's hips, which ensures the vertical motion of the character tracks that of the body kinematics.
+The `LeftArmRig` and `RightArmRig` both apply `Chain IK Constraint` to place the character's hands on the lower pegs of the stool.
+There are targets associated with each, which are constrained to track the motion of these pegs, and are seen as red cube effectors in the image below.
+The root for the constraint is the shoulder, and the tip is the middle finger, for each of the character's arms.
+
+![Targets are located on the lower pegs of the stool](images/targets.png)
 
 ## Scripting Components
 
