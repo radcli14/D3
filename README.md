@@ -32,6 +32,9 @@ In this configuration, the player can tilt the stool to point to the ball, or ex
 
 The Mannequin character model has been downloaded from [Mixamo](mixamo.com).
 Root motion is referenced to the hip joint, which tracks motion of the `body`.
+In each asset, from the inspector and the rig tab, make sure that `Humanoid` is selected as the `Animation Type`.
+
+![Make sure to select Humanoid](images/humanoid.png)
 
 ### Animation
 
@@ -48,6 +51,15 @@ The `Foot IK` button is checked for each of the animations, which ensures that t
 ![Make sure to check the Foot IK box](images/footIK.png)
 
 ### Rigging
+
+A `Rig Builder` object is added to the character model, with rigs for root motion, left and right arm motion.
+Additionally there is a `Bone Renderer` object, which is created from the menu bar, `Animation Rigging -> Bone Renderer Setup`, which will pre-populate the transforms (much more convenient than doing it yourself).
+The `RootRig` object applies a `Multi-Position Constraint` from the `body` to the character's hips, which ensures the vertical motion of the character tracks that of the body kinematics.
+The `LeftArmRig` and `RightArmRig` both apply `Chain IK Constraint` to place the character's hands on the lower pegs of the stool.
+There are targets associated with each, which are constrained to track the motion of these pegs, and are seen as red cube effectors in the image below.
+The root for the constraint is the shoulder, and the tip is the middle finger, for each of the character's arms.
+
+![Targets are located on the lower pegs of the stool](images/targets.png)
 
 ## Scripting Components
 
