@@ -11,7 +11,7 @@ dRuBbLe was previously written in pure Python code using the [Kivy](https://kivy
 ## Unity Editor Components
 
 Built-in Unity `GameObject`s are used to define the kinematics between the world, player body, and stool, and the Unity physics engine is used to model their motion.
-A character model and its animations are built from `.fbx` formatted models downloaded from [Mixamo](https://mixamo.com).
+A character model and its animations are built from `.fbx` formatted models downloaded from [Mixamo](https://www.mixamo.com).
 Rigging and inverse kinematics (IK) are used to animate the player running, and to have the player's hands hold the stool.
 
 ### Kinematics
