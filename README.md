@@ -40,7 +40,8 @@ In each asset, from the inspector and the rig tab, make sure that `Humanoid` is 
 
 Multiple `.fbx` files are downloaded for the same character, each containing a different animation, with the suffix `@animation` appended to the file name.
 There is an `Animation Controller` component attached to the character model, which contains transitions between these.
-A parameter named `velo` is created in the animation controller, which is updated at each frame in the player script, and tracks the horizontal velocity of the `body`.
+A parameter named `velo` is created in the animation controller, which is updated at each frame in the player script, and tracks the horizontal velocity of the `body`, and is normalized to a value between 0 and 1.
+`velo` is also used as a multiplier on the animation speed.
 The default animation is an `Idle` standing pose.
 A transition to the `RunLeft` animation is invoked when the velocity is above a positive threshold, and likewise to the `RunRight` animation for a negative velocity.
 
@@ -49,6 +50,12 @@ A transition to the `RunLeft` animation is invoked when the velocity is above a 
 The `Foot IK` button is checked for each of the animations, which ensures that the player's feet do not pass through the ground.
 
 ![Make sure to check the Foot IK box](images/footIK.png)
+
+The `Has Exit Time` box should be unchecked for each of the transitions between running and idle, which will ensure that these will happen immediately, not wait for the prior animation to finish.
+On the other hand, the transition from each run animation to itself should have this checked, which will ensure that the running animations are smooth.
+
+![Make sure to uncheck the Has Exit Time box for transitions between idle and running](images/exitTime.png)
+
 
 ### Rigging
 
